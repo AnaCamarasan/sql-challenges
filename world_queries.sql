@@ -66,3 +66,28 @@ order by GNP desc
 limit 10;
 
 -- 16. List the names of, and number of languages spoken by, the top ten most multilingual countries.
+select country.Name, count(countrylanguage.CountryCode) as lang_num from country
+join countrylanguage on country.Code = countrylanguage.CountryCode
+group by country.Name
+order by lang_num desc
+limit 10;
+
+-- 17. List every country where over 50% of its population can speak German.
+select country.Name, countrylanguage.Percentage from country
+join countrylanguage on country.Code = countrylanguage.CountryCode
+where countrylanguage.Percentage > 50 and countrylanguage.Language = 'German';
+
+-- 18. Which country has the worst life expectancy? Discard zero or null values.
+select Name, LifeExpectancy from country
+where LifeExpectancy is not null
+order by LifeExpectancy
+limit 1;
+
+-- 19. List the top three most common government forms.
+select GovernmentForm, count(GovernmentForm) as gov_count from country
+group by GovernmentForm
+order by gov_count desc
+limit 3;
+
+-- 20. How many countries have gained independence since records began?
+select count(IndepYear) as indep_count from country where IndepYear is not null;
